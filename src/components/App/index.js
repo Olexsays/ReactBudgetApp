@@ -1,55 +1,44 @@
-import React, {Component} from 'react'
-import Balance from '../Balance'
-import Transactions from '../Transactions'
+import React from 'react'
+import {Wrapper, GlobalStyle} from './styles'
+import {
+    BrowserRouter as Router,
+    Routes,
+    Route,
+    Link
+  } from "react-router-dom";
+import Home from '../Home'
+import About from '../About'
+import Statisticks from '../Statisticks'
 
-let id = 0
-class App extends Component {
-    constructor() {
-        super();
-
-        this.state = {
-            balance: 0,
-            transactions: []
-        }
-
-        this.onIncrease = this.onIncrease.bind(this)
-        console.log('constructor')
-    }
-
-
-    onIncrease () {
-        this.setState((state) => ({
-            balance: this.state.balance + 1,
-            transactions: [{
-            label: 'increase',
-            value: 1,
-            id: ++id}, ...state.transactions]
-            }))
-    }
-
-    onDecrease = () => {
-        this.setState((state) => ({
-            balance: this.state.balance - 1,
-            transactions: [{
-            label: 'decrease',
-            value: -1,
-            id: ++id}, ...state.transactions]
-            }))
-    }
-
-    render() {
-        console.log('render')
+const App = () => {
         return (
-            <div>
-                <Balance balance={this.state.balance}/>
-                <button onClick={this.onIncrease}>Add 1</button>
-                <button onClick={this.onDecrease}>Remove 1</button>
-                <hr/>
+            <Router>
+            <Wrapper>
+                <GlobalStyle />
 
-                <Transactions transactions={this.state.transactions}/>
-            </div>
+                <nav>
+                    <ul>
+                        <li>
+                        <Link to="/">Home</Link>
+                        </li>
+                        <li>
+                        <Link to="/statisticks">Statistics</Link> 
+                        </li>
+                        <li>
+                        <Link to="/about">About</Link>
+                        </li>
+                    </ul>
+                </nav>
+
+                <Routes>
+                <Route exact path="/" element={<Home />} />
+                <Route path="/statisticks" element={<Statisticks />} />
+                <Route path="/about" element={<About />} />
+                </Routes>
+
+            </Wrapper>
+            </Router>
         )
-    }
 }
 
 export default App;
